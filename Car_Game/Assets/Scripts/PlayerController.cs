@@ -1,33 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 15.5f;
-    private float turnSpeed = 40.0f;
+    #region Variables
+    public float speed;
+    public float turnspeed;
+    public float fwdInput;
+    public float horiInput;
+    public float accelRate;
+    #endregion
 
-    float horizontalInput;
-    float forwardInput;
 
-
-    // Start is called before the first frame update
+    #region Main Methods
     void Start()
     {
-        
+        speed = 12;
+        turnspeed = 10;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Axis setup
-        horizontalInput = Input.GetAxis("Horizontal");
-        forwardInput = Input.GetAxis("Vertical");
-
-        // Move the vehicle forward
-        transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
-
-        // Rotate the vehicle left and right
-        transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
+ 
+        Move();
     }
+    #endregion
+
+
+    #region Utility Methods
+    public void Move()
+    {
+        horiInput = Input.GetAxis("Horizontal");
+        fwdInput = Input.GetAxis("Vertical");
+
+        transform.Translate(Vector3.forward * Time.deltaTime * speed * fwdInput);
+        if (fwdInput != 0)transform.Rotate(Vector3.up, turnspeed * horiInput * Time.deltaTime);
+
+    }
+    #endregion
 }
